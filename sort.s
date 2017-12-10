@@ -1,30 +1,25 @@
 .data
-   v:.word 2, 1, 3, 2, 3  # the array
-   n:.word 5              # number of elemnts
+   v:.word 2, 1, 3, 2, 1  # The array
+   n:.word 5              # Number of elements
    i:.space 4             
    k:.space 4
 .text
 main:
  sw $zero,i                 # i=0
- lw $t0,n
- beq $t0,$zero,exit       # if n=0 exit
- li $t2,1
- sub $t0,$t0,$t2          #n=n-1
- sw $t0,n
-#loop
+#loop1
 entry:
  lw $t0,i
  lw $t1,n
- bge $t0,$t1,exit       # if i>=n-1 exit
+ bge $t0,$t1,exit       # if(i>=n) exit
  add $t0,$t0,$t0
- add $t0,$t0,$t0          
- lw $t7,v($t0)            # $t7:=v[i]
+ add $t0,$t0,$t0          #  $t0=4*i
  lw $s0,i
  addi $s0,$s0,1           #k=i+1
  sw $s0,k
- #loop number 2
+ #loop2
 entry2: 
  lw $t2,k
+ lw $t7,v($t0)            # $t7:=v[i]
  bgt $t2,$t1,exit2
  add $t2,$t2,$t2
  add $t2,$t2,$t2
@@ -42,7 +37,7 @@ entry2:
 exit2:
  lw $t0,i
  addi $t0,$t0,1
- sw $t0,i                 # i++
+ sw $t0,i                 # i=i+1
  j entry
 exit:
 li $v0,10
